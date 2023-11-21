@@ -27,52 +27,53 @@ public class CursoService implements CursoServiceContract {
     }
 
     @Override
-    public List<CursoDTO> findAll() {
-        return cursoRepository.findAll().stream().map(
-        (Curso curso) -> {
-            List<Long> professorIds = curso.getProfessorList().stream()
-                    .map(professor -> professor.getId())
-                    .collect(Collectors.toList());
-
-            return CursoDTO.builder()
-                    .id(curso.getId())
-                    .descricao(curso.getDescricao())
-                    .cargaHoraria(curso.getCargaHoraria())
-                    .objetivo(curso.getObjetivo())
-                    .ementa(curso.getEmenta())
-                    .professorList(professorIds)
-                    .build();
-        })
-        .collect(Collectors.toList());
-    }
-
-    @Override
     public void create(CursoCreateDTO curso) {
 
         Curso cursoSaved = Curso.builder()
-            .id(curso.getId())
-            .descricao(curso.getDescricao())
-            .cargaHoraria(curso.getCargaHoraria())
-            .objetivo(curso.getObjetivo())
-            .ementa(curso.getEmenta())
-            .build();
+                .id(curso.getId())
+                .descricao(curso.getDescricao())
+                .cargaHoraria(curso.getCargaHoraria())
+                .objetivo(curso.getObjetivo())
+                .ementa(curso.getEmenta())
+                .build();
 
         cursoRepository.save(cursoSaved);
     }
 
     @Override
-    public void updateProfessores(Long id, UpdateListLongDTO professorList){
+    public void updateProfessores(Long id, UpdateListLongDTO professorList) {
 
-        Curso cursoEncontrado = cursoRepository.findById(id).orElseThrow(() -> new RegraNegocioException("Não foi possível encontrar o ID do curso fornecido.")); 
+        Curso cursoEncontrado = cursoRepository.findById(id)
+                .orElseThrow(() -> new RegraNegocioException("Não foi possível encontrar o ID do curso fornecido."));
 
         List<Professor> professorListFound = professorRepository.findAllById(professorList.getLongList());
 
-        if(professorListFound.size() != professorList.getLongList().size()){
+        if (professorListFound.size() != professorList.getLongList().size()) {
             throw new RegraNegocioException("Um ou mais professores não foram encontrados dentro da lista.");
         }
 
         cursoEncontrado.setProfessorList(professorListFound);
         cursoRepository.save(cursoEncontrado);
     }
-}
 
+    @Override
+    public List<CursoDTO> findAll() {
+        return cursoRepository.findAll().stream().map(
+                (Curso curso) -> {
+                    List<Long> professorIds = curso.getProfessorList().stream()
+                            .map(professor -> professor.getId())
+                            .collect(Collectors.toList());
+
+                    return CursoDTO.builder()
+                            .id(curso.getId())
+                            .descricao(curso.getDescricao())
+                            .cargaHoraria(curso.getCargaHoraria())
+                            .objetivo(curso.getObjetivo())
+                            .ementa(curso.getEmenta())
+                            .professorList(professorIds)
+                            .build();
+                })
+                .collect(Collectors.toList());
+    }
+
+}

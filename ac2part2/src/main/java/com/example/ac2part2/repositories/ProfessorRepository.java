@@ -9,6 +9,7 @@ import com.example.ac2part2.models.Professor;
 
 @Repository
 public interface ProfessorRepository extends JpaRepository<Professor, Long> {
-    Optional<Professor> findByNome(String nome);
     Optional<Professor> findByCpf(String cpf);
+    Optional<Professor> findByNome(String nome);
+    
 }

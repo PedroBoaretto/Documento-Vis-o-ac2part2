@@ -15,12 +15,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
+@Getter
+@Setter
 public class Professor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,10 +28,10 @@ public class Professor {
     @NotBlank(message = "Nome não pode ser vazia")
     private String nome;
     @NotBlank(message = "CPF não pode ser vazia")
-    private String cpf;
-    @NotBlank(message = "RG não pode ser vazia")
     private String rg;
     @NotBlank(message = "Endereço não pode ser vazia")
+    private String cpf;
+    @NotBlank(message = "RG não pode ser vazia")
     private String endereco;
     @NotBlank(message = "Celular não pode ser vazia")
     private String celular;

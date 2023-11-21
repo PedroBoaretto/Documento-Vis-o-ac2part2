@@ -25,23 +25,23 @@ public class CursoController {
 
     private CursoService cursoService;
 
-    public CursoController(CursoService cursoService){
+    public CursoController(CursoService cursoService) {
         this.cursoService = cursoService;
-    }
-
-    @GetMapping
-    public List<CursoDTO> findAllCurso(){
-        return cursoService.findAll();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createCurso(@Valid @RequestBody CursoCreateDTO curso){
+    public void createCurso(@Valid @RequestBody CursoCreateDTO curso) {
         cursoService.create(curso);
     }
 
+    @GetMapping
+    public List<CursoDTO> findAllCurso() {
+        return cursoService.findAll();
+    }
+
     @PutMapping("{id}")
-    public void updateProfessores(@PathVariable Long id, @Valid @RequestBody UpdateListLongDTO professorList){
+    public void updateProfessores(@PathVariable Long id, @Valid @RequestBody UpdateListLongDTO professorList) {
         cursoService.updateProfessores(id, professorList);
     }
 }

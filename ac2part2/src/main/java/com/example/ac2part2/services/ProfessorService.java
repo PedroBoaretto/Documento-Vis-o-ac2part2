@@ -27,28 +27,6 @@ public class ProfessorService implements ProfessorServiceContract {
     }
 
     @Override
-    public List<ProfessorDTO> findAll() {
-        return professorRepository.findAll().stream().map(
-                (Professor professor) -> {
-                    List<Long> cursosIds = professor.getCursoList().stream()
-                            .map(curso -> curso.getId())
-                            .collect(Collectors.toList());
-
-                    return ProfessorDTO.builder()
-                            .id(professor.getId())
-                            .nome(professor.getNome())
-                            .cpf(professor.getCpf())
-                            .rg(professor.getRg())
-                            .endereco(professor.getEndereco())
-                            .celular(professor.getCelular())
-                            .cursoList(cursosIds)
-                            .build();
-                })
-                .collect(Collectors.toList());
-
-    }
-
-    @Override
     public void create(ProfessorDTO professor) {
 
         List<Curso> cursoList = cursoRepository.findAllById(professor.getCursoList());
@@ -86,6 +64,28 @@ public class ProfessorService implements ProfessorServiceContract {
     }
 
     @Override
+    public List<ProfessorDTO> findAll() {
+        return professorRepository.findAll().stream().map(
+                (Professor professor) -> {
+                    List<Long> cursosIds = professor.getCursoList().stream()
+                            .map(curso -> curso.getId())
+                            .collect(Collectors.toList());
+
+                    return ProfessorDTO.builder()
+                            .id(professor.getId())
+                            .nome(professor.getNome())
+                            .cpf(professor.getCpf())
+                            .rg(professor.getRg())
+                            .endereco(professor.getEndereco())
+                            .celular(professor.getCelular())
+                            .cursoList(cursosIds)
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+    }
+
+    @Override
     public Boolean login(String nome, String cpf) {
         Optional<Professor> professor = professorRepository.findByCpf(cpf);
 
@@ -98,4 +98,3 @@ public class ProfessorService implements ProfessorServiceContract {
         return false;
     }
 }
-

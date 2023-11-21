@@ -25,16 +25,16 @@ public class AgendaController {
     public AgendaController(AgendaService agendaService){
         this.agendaService = agendaService;
     }
-    
-    @GetMapping
-    public List<AgendaDTO> findAllAgenda(){
-        return agendaService.findAll();
-    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createAgenda(@Valid @RequestBody AgendaDTO agenda){
         agendaService.create(agenda);
+    }
+
+    @GetMapping
+    public List<AgendaDTO> findAllAgenda(){
+        return agendaService.findAll();
     }
 
     @GetMapping("/professor")
